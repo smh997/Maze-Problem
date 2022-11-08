@@ -1,2 +1,2 @@
-# Maze-Problem
-Solving Maze Problem Using Different Algorithms
+# Solving Maze Problem Using Different Algorithms
+A project for COMP 8700.
