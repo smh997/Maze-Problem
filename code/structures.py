@@ -141,7 +141,6 @@ class Maze:
                     target_cell = cell
                 cell_list.append(cell)
         maze = Maze(n_rows, n_columns, source_cell, target_cell, cell_list)
-        print('o:', len(obstacles_coords_list), obstacles_coords_list)
         return maze
 
 
