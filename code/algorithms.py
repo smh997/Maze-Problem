@@ -13,7 +13,18 @@ def dfs(maze, cell=None):
 
 
 def bfs(maze, cell=None):
-    pass
+    queue = []
+
+    queue.append(cell)
+
+    while queue:
+        m = queue.pop(0)
+
+        for neighbour in maze.get_neighbors(maze, m):
+            if neighbour.passed_distance == float("inf"):
+                neighbour.previous_cell(cell)
+                neighbour.passed_distance = cell.passed_distance + neighbour.cost
+                queue.append(neighbour)
 
 
 def a_star(maze, cell, h):
