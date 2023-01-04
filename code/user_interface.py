@@ -41,8 +41,6 @@ class UI:
         self.reset_rect = pygame.Rect(520, self.screen.get_height() - int(6 * self.rect_size.row), 100, 50)
         self.run_rect = pygame.Rect(650, self.screen.get_height() - int(6 * self.rect_size.row), 100, 50)
 
-        self.n_checked_cells = 0
-
     def calculate_pos(self, cell):
         return structures.Coords(cell.coords.row * (self.rect_size.row + self.margin),
                                  cell.coords.column * (self.rect_size.column + self.margin))
@@ -69,7 +67,7 @@ class UI:
         if cell.type == structures.CellTypes.Source.value:
             return pygame.Color("orange")
         if cell.type == structures.CellTypes.Target.value:
-            return pygame.Color("red")
+            return pygame.Color("Purple")
         if cell.type == structures.CellTypes.Obstacle.value:
             return pygame.Color("brown")
 
@@ -137,7 +135,7 @@ class UI:
             self.screen.blit(text, (10, self.screen.get_height() - 6 * self.rect_size.row))
         center, radius = self.target_mode_rb[0], self.target_mode_rb[1]
         pygame.draw.circle(self.screen, self.background_color, center, radius)
-        pygame.draw.circle(self.screen, pygame.Color("Red"), center, radius, 3)
+        pygame.draw.circle(self.screen, pygame.Color("Purple"), center, radius, 3)
 
     def draw_obstacle_mode_rb(self, first=False):
         if first:
@@ -228,7 +226,7 @@ class UI:
 
     def fill_target_mode_rb(self):
         center, radius = self.target_mode_rb[0], self.target_mode_rb[1]
-        pygame.draw.circle(self.screen, pygame.Color("Red"), center, radius)
+        pygame.draw.circle(self.screen, pygame.Color("Purple"), center, radius)
 
     def fill_obstacle_mode_rb(self):
         center, radius = self.obstacle_mode_rb[0], self.obstacle_mode_rb[1]
@@ -355,12 +353,12 @@ class UI:
     def clean_display(self):
         for cell in self.maze.cell_list:
             self.draw(cell)
-        pygame.draw.rect(self.screen, self.background_color, pygame.Rect(800, self.screen.get_height() - 8 * self.rect_size.row, 230, 70))
-        self.n_checked_cells = 0
+        pygame.draw.rect(self.screen, self.background_color, pygame.Rect(800, self.screen.get_height() - 8 * self.rect_size.row, 230, 110))
 
     def draw_result(self, res, t):
         path = res.get("path")
         d = res.get("total_distance")
+        n_checked_cells = res.get("checked_cells_no")
         if path is not None:
             for cell in path:
                 if cell.type not in (structures.CellTypes.Source.value, structures.CellTypes.Target.value):
@@ -369,18 +367,20 @@ class UI:
         else:
             d = "Not Reachable!"
         t = str(round(t, 3))
+        memory = res.get("memory")
         length_of_path_text = self.font.render(f"Total Length: {d}", True, pygame.Color("Black"))
         self.screen.blit(length_of_path_text, (800, self.screen.get_height() - 8 * self.rect_size.row))
         time_str = self.font.render(f"Time: {t}", True, pygame.Color("Black"))
         self.screen.blit(time_str, (800, self.screen.get_height() - 6 * self.rect_size.row))
-        n_checked_cells_str = self.font.render(f"Checked Cells NO: {self.n_checked_cells}", True, pygame.Color("Black"))
+        n_checked_cells_str = self.font.render(f"Checked Cells NO: {n_checked_cells}", True, pygame.Color("Black"))
         self.screen.blit(n_checked_cells_str, (800, self.screen.get_height() - 4 * self.rect_size.row))
+        memory_str = self.font.render(f"Memory: {memory}", True, pygame.Color("Black"))
+        self.screen.blit(memory_str, (800, self.screen.get_height() - 2 * self.rect_size.row))
 
     def draw_checking_cell(self, cell):
         if cell.type in (structures.CellTypes.Source.value, structures.CellTypes.Target.value):
             return
         self.draw(cell, pygame.Color(135, 197, 233, 255))
-        self.n_checked_cells += 1
 
     def draw_visited_cell(self, cell):
         if cell.type in (structures.CellTypes.Source.value, structures.CellTypes.Target.value):
@@ -391,62 +391,3 @@ class UI:
         while time.time() - start < self.delay:
             pass
         pygame.display.flip()
-
-# class Node:
-# 	def __init__(self, screen_, rect_size_, position, column, row, cost=1, color=colors.NodeColors.normal.value):
-# 		global screen, rect_size
-# 		screen = screen_
-# 		rect_size = rect_size_
-# 		self.column, self.row = column, row
-# 		self.position = position								# Position in pixels
-# 		self.distance_from_start = float("inf")		# If this value = infinity that means it hasn't been updated yet
-# 		self.distance_from_end = float("inf")
-# 		self.total_distance = float("inf")
-# 		self.previous_node = None					# The node that updated this node (this help us to track back our path)
-# 		self.is_obstacle = False					# Defines whether the node blocks the path or not (True = blocks the path)
-# 		self.color = color
-# 		self.cost = cost
-#
-# 	def draw(self, color = None):
-# 		if color is None:
-# 			color = self.color
-# 		pygame.draw.rect(screen, color, pygame.Rect(self.position[0], self.position[1], rect_size[0], rect_size[1]))
-#
-#
-# 	def ChangeColor(self, new_color):
-# 		"""
-# 			Changes the node color to the given color and draw the node
-# 		"""
-# 		self.color = new_color
-# 		self.Draw(new_color)
-#
-# 	def SetToObstacle(self):
-# 		"""
-# 			Set the values that will make this node a obstacle node
-# 		"""
-# 		if self.is_obstacle:
-# 			return
-# 		self.Reset()
-# 		self.is_obstacle = True
-# 		self.ChangeColor(colors.NodeColors.obstacle.value)
-#
-# 	def ResetDistances(self):
-# 		self.distance_from_start = float("inf")
-# 		self.distance_from_end = float("inf")
-# 		self.total_distance = float("inf")
-#
-# 	def Reset(self):
-# 		"""
-# 			Resets the node to the default values
-# 		"""
-# 		self.ResetDistances()
-# 		self.is_obstacle = False
-# 		self.cost = 1
-# 		self.ChangeColor(colors.NodeColors.normal.value)
-#
-#
-# class NodeTypes(Enum):
-# 	Normal = 0
-# 	Start = 1
-# 	End = 2
-# 	Obstacle = 3

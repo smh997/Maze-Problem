@@ -62,6 +62,7 @@ class Maze:
         self.source = source
         self.target = target
         self.cell_list = cell_list
+        self.n_checked_cells = 0
 
     def set_source(self, cell):
         if self.source is not None:
@@ -111,6 +112,7 @@ class Maze:
             cell.ongoing_distance = float("inf")
             cell.total_distance = float("inf")
             cell.previous_cell = None
+        self.n_checked_cells = 0
 
     @staticmethod
     def build(data=None, file_address=None):
@@ -123,6 +125,8 @@ class Maze:
         if not is_valid(data):
             return None
         obstacles_coords_list = data.get("obstacles")
+        for i, obstacle_coords in enumerate(obstacles_coords_list):
+            obstacles_coords_list[i] = tuple(obstacle_coords)
         n_rows, n_columns = data.get("n_rows"), data.get("n_columns")
         source_tuple, target_tuple = tuple(data.get("source")), tuple(data.get("target"))
         source_cell, target_cell = None, None
@@ -132,7 +136,7 @@ class Maze:
                 typ = CellTypes.Obstacle.value if (r, c) in obstacles_coords_list else CellTypes.Normal.value
                 if source_tuple == (r, c):
                     typ = CellTypes.Source.value
-                if target_tuple == (r, c):
+                elif target_tuple == (r, c):
                     typ = CellTypes.Target.value
                 cell = Cell(Coords(r, c), cell_type=typ)
                 if typ == CellTypes.Source.value:
@@ -150,6 +154,7 @@ def calc_path(maze):
     while True:
         last_cell = last_cell.previous_cell
         if maze.source == last_cell:
+            reversed_path.append(last_cell)
             path = reversed_path[::-1]
             return path
         else:
