@@ -1,5 +1,10 @@
 
 def is_valid(dictionary):
+    """
+        Its job is to validate input test files.
+    :param dictionary: the data given in form of a dictionary
+    :return: True if the test is valid and False otherwise.
+    """
     try:
         n_rows = dictionary.get("n_rows")
         n_columns = dictionary.get("n_columns")
