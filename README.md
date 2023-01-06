@@ -55,5 +55,5 @@ The output will be ready in outputs directory.
 > All other contents related to this project are in this directory.
 
 - [visual test1](https://github.com/smh997/Maze-Problem/tree/master/others/visual%20test%201)
-- [visual test1](https://github.com/smh997/Maze-Problem/tree/master/others/visual%20test%202)
+- [visual test2](https://github.com/smh997/Maze-Problem/tree/master/others/visual%20test%202)
 - other files
