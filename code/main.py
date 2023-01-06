@@ -12,6 +12,14 @@ heuristics_list = [chebyshev_distance, manhattan_distance, euclidean_distance]
 
 
 def solve(maze, algorithm, h=heuristics.manhattan_distance, ui=None):
+    """
+        Its job is to solve the maze using the given algorithm and data
+    :param maze: the given maze
+    :param algorithm: the chosen algorithm
+    :param h: the selected heuristic function
+    :param ui: the given user interface
+    :return: result of the algorithm in solving the maze
+    """
     maze.reset_distances()
     result = algorithm(maze, None, h, ui)
     if result["total_distance"] != float("inf") and result["total_distance"] != -1:
@@ -20,8 +28,10 @@ def solve(maze, algorithm, h=heuristics.manhattan_distance, ui=None):
     return result
 
 
+# setting recursion for running dfs as a recursive function is required in python
 sys.setrecursionlimit(10**6)
 if len(sys.argv) < 2:
+    # default set-up of UI
     data = {
         "n_rows": 38,
         "n_columns": 70,
@@ -52,7 +62,7 @@ if len(sys.argv) < 2:
                     pcoords = structures.Coords(column=p[0], row=p[1])
                     c = int(pcoords.column / (ui.rect_size.column + ui.margin))
                     r = int(pcoords.row / (ui.rect_size.row + ui.margin))
-                    if c >= ui.maze.n_columns or r >= ui.maze.n_rows:
+                    if c >= ui.maze.n_columns or r >= ui.maze.n_rows:  # it means no cell is clicked and maybe a buttion is clicked
                         draw_mode, algorithm_mode, heuristic, erase_mode, is_run = ui.click_button(pcoords, draw_mode, algorithm_mode, heuristic, erase_mode)
                         if is_run:
                             ui.clean_display()
@@ -76,7 +86,7 @@ if len(sys.argv) < 2:
                     res2 = solve(ui.maze, algorithms_list[algorithm_mode], heuristics_list[heuristic])
                     t = res2.get("time")
                     ui.draw_result(res, t)
-            elif event.type == pygame.MOUSEMOTION:
+            elif event.type == pygame.MOUSEMOTION:  # for smoothly putting and removing obstacles
                 p = pygame.mouse.get_pos()
                 pcoords = structures.Coords(column=p[0], row=p[1])
                 if mouse_button_down:

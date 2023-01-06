@@ -5,17 +5,27 @@ from enum import Enum
 
 
 class AlgorithmTypes(Enum):
+    """
+        Types of algorithms we have
+    """
     DFS = 0
     BFS = 1
     GreedyBFS = 2
     A_star = 3
 
 
-iteration = 0
-max_iteration = 0
+iteration = 0  # used for calculating depth of DFS
+max_iteration = 0  # used for store maximum depth of DFS
 
 
 def dfs(maze, cell=None, *args):
+    """
+        Its job is doing DFS algorithm
+    :param maze: The given maze
+    :param cell: The current cell
+    :param args: other arguments like ui object or others functions heuristic function
+    :return: The result of performing DFS
+    """
     global iteration, max_iteration
 
     ui = None
@@ -23,7 +33,7 @@ def dfs(maze, cell=None, *args):
         ui = args[1]
     source = False
     elapsed_time = 0
-    if cell is None:
+    if cell is None:  # if cell is None, it means its the first time function is calling so we need initializing
         source = True
         iteration = 0
         start_time = time.process_time()
@@ -33,16 +43,16 @@ def dfs(maze, cell=None, *args):
         if maze.source is None:
             raise Exception("Maze is not complete to start! Source is not determined.")
     iteration += 1
-    if cell == maze.target:
+    if cell == maze.target:  # if we found target its done
         max_iteration = max(iteration, max_iteration)
         return {"total_distance": maze.target.total_distance, "time": elapsed_time,
                 "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
-    if iteration > 2500:
+    if iteration > 2500:  # the threshold for dfs to perform recursion before os stops the process
         max_iteration = max(iteration, max_iteration)
         return {"total_distance": maze.target.total_distance, "time": elapsed_time,
                 "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
     for neighbor_cell in maze.get_neighbors(cell):
-        if neighbor_cell.passed_distance == float("inf"):
+        if neighbor_cell.passed_distance == float("inf"):  # Not visited
             neighbor_cell.previous_cell = cell
             neighbor_cell.passed_distance = cell.passed_distance + neighbor_cell.cost
             neighbor_cell.total_distance = neighbor_cell.passed_distance
@@ -52,17 +62,24 @@ def dfs(maze, cell=None, *args):
                 ui.draw_visited_cell(cell)
             res = dfs(maze, neighbor_cell, *args)
             iteration -= 1
-            if res.get("total_distance") != float("inf"):  # or res.get("total_distance") == -1:
+            if res.get("total_distance") != float("inf"):  # we found the target and its time to come back.
                 break
     if source:
         end_time = time.process_time()
-        elapsed_time = end_time - start_time
+        elapsed_time = end_time - start_time  # calculating the time
     max_iteration = max(iteration, max_iteration)
     return {"total_distance": maze.target.total_distance, "time": elapsed_time,
             "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
 
 
 def bfs(maze, cell=None, *args):
+    """
+        Its job is doing BFS algorithm
+    :param maze: The given maze
+    :param cell: The current cell
+    :param args: other arguments like ui object or others functions heuristic function
+    :return: The result of performing DFS
+    """
     ui = None
     if len(args) > 1:
         ui = args[1]
@@ -103,6 +120,14 @@ def bfs(maze, cell=None, *args):
 
 
 def a_star(maze, cell=None, h=heuristics.manhattan_distance, *args):
+    """
+        Its job is doing A* algorithm
+    :param maze: The given maze
+    :param cell: The current cell
+    :param h: given heuristic function
+    :param args: other arguments like ui object
+    :return: The result of performing A*
+    """
     ui = args[0]
     start_time = time.process_time()
     if cell is None:
@@ -154,6 +179,14 @@ def a_star(maze, cell=None, h=heuristics.manhattan_distance, *args):
 
 
 def greedy_best_first_search(maze, cell=None, h=heuristics.manhattan_distance, *args):
+    """
+        Its job is doing Greedy Best-First Search algorithm
+    :param maze: The given maze
+    :param cell: The current cell
+    :param h: given heuristic function
+    :param args: other arguments like ui object
+    :return: The result of performing Greedy Best-First Search
+    """
     ui = args[0]
     start_time = time.process_time()
     if cell is None:
