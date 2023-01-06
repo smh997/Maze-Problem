@@ -212,7 +212,7 @@ class UI:
         text = self.font.render("Reset", True, pygame.Color("Black"))
         pygame.draw.rect(self.screen, pygame.Color("Yellow"), self.reset_rect)
         pygame.draw.rect(self.screen, pygame.Color(139, 128, 0, 255), self.reset_rect, 2)
-        self.screen.blit(text, (self.reset_rect.left + 30, self.reset_rect.top + self.reset_rect.height//3))
+        self.screen.blit(text, (self.reset_rect.left + 30, self.reset_rect.top + self.reset_rect.height // 3))
 
     def draw_run_btn(self):
         text = self.font.render("Run", True, pygame.Color("Black"))
@@ -265,19 +265,25 @@ class UI:
 
     def click_button(self, pos, draw_mode, algo_mode, heuristic, erase_mode=False):
         is_run = False
-        if self.source_mode_rb[0][0] - self.source_mode_rb[1] <= pos.column <= self.source_mode_rb[0][0] + self.source_mode_rb[1] and self.source_mode_rb[0][1] - self.source_mode_rb[1] <= pos.row <= self.source_mode_rb[0][1] + self.source_mode_rb[1]:
+        if self.source_mode_rb[0][0] - self.source_mode_rb[1] <= pos.column <= self.source_mode_rb[0][0] + \
+                self.source_mode_rb[1] and self.source_mode_rb[0][1] - self.source_mode_rb[1] <= pos.row <= \
+                self.source_mode_rb[0][1] + self.source_mode_rb[1]:
             if draw_mode != structures.CellTypes.Source.value:
                 draw_mode = structures.CellTypes.Source.value
                 self.fill_source_mode_rb()
                 self.draw_target_mode_rb()
                 self.draw_obstacle_mode_rb()
-        elif self.target_mode_rb[0][0] - self.target_mode_rb[1] <= pos.column <= self.target_mode_rb[0][0] + self.target_mode_rb[1] and self.target_mode_rb[0][1] - self.target_mode_rb[1] <= pos.row <= self.target_mode_rb[0][1] + self.target_mode_rb[1]:
+        elif self.target_mode_rb[0][0] - self.target_mode_rb[1] <= pos.column <= self.target_mode_rb[0][0] + \
+                self.target_mode_rb[1] and self.target_mode_rb[0][1] - self.target_mode_rb[1] <= pos.row <= \
+                self.target_mode_rb[0][1] + self.target_mode_rb[1]:
             if draw_mode != structures.CellTypes.Target.value:
                 draw_mode = structures.CellTypes.Target.value
                 self.draw_source_mode_rb()
                 self.fill_target_mode_rb()
                 self.draw_obstacle_mode_rb()
-        elif self.obstacle_mode_rb[0][0] - self.obstacle_mode_rb[1] <= pos.column <= self.obstacle_mode_rb[0][0] + self.obstacle_mode_rb[1] and self.obstacle_mode_rb[0][1] - self.obstacle_mode_rb[1] <= pos.row <= self.obstacle_mode_rb[0][1] + self.obstacle_mode_rb[1]:
+        elif self.obstacle_mode_rb[0][0] - self.obstacle_mode_rb[1] <= pos.column <= self.obstacle_mode_rb[0][0] + \
+                self.obstacle_mode_rb[1] and self.obstacle_mode_rb[0][1] - self.obstacle_mode_rb[1] <= pos.row <= \
+                self.obstacle_mode_rb[0][1] + self.obstacle_mode_rb[1]:
             if draw_mode != structures.CellTypes.Obstacle.value:
                 draw_mode = structures.CellTypes.Obstacle.value
                 self.draw_source_mode_rb()
@@ -290,47 +296,61 @@ class UI:
             else:
                 erase_mode = True
                 self.fill_erase_mode_cb()
-        elif self.dfs_algo_rb[0][0] - self.dfs_algo_rb[1] <= pos.column <= self.dfs_algo_rb[0][0] + self.dfs_algo_rb[1] and self.dfs_algo_rb[0][1] - self.dfs_algo_rb[1] <= pos.row <= self.dfs_algo_rb[0][1] + self.dfs_algo_rb[1]:
+        elif self.dfs_algo_rb[0][0] - self.dfs_algo_rb[1] <= pos.column <= self.dfs_algo_rb[0][0] + self.dfs_algo_rb[
+            1] and self.dfs_algo_rb[0][1] - self.dfs_algo_rb[1] <= pos.row <= self.dfs_algo_rb[0][1] + self.dfs_algo_rb[
+            1]:
             if algo_mode != AlgorithmTypes.DFS.value:
                 algo_mode = AlgorithmTypes.DFS.value
                 self.fill_dfs_algo_rb()
                 self.draw_bfs_algo_rb()
                 self.draw_gbfs_algo_rb()
                 self.draw_astar_algo_rb()
-        elif self.bfs_algo_rb[0][0] - self.bfs_algo_rb[1] <= pos.column <= self.bfs_algo_rb[0][0] + self.bfs_algo_rb[1] and self.bfs_algo_rb[0][1] - self.bfs_algo_rb[1] <= pos.row <= self.bfs_algo_rb[0][1] + self.bfs_algo_rb[1]:
+        elif self.bfs_algo_rb[0][0] - self.bfs_algo_rb[1] <= pos.column <= self.bfs_algo_rb[0][0] + self.bfs_algo_rb[
+            1] and self.bfs_algo_rb[0][1] - self.bfs_algo_rb[1] <= pos.row <= self.bfs_algo_rb[0][1] + self.bfs_algo_rb[
+            1]:
             if algo_mode != AlgorithmTypes.BFS.value:
                 algo_mode = AlgorithmTypes.BFS.value
                 self.draw_dfs_algo_rb()
                 self.fill_bfs_algo_rb()
                 self.draw_gbfs_algo_rb()
                 self.draw_astar_algo_rb()
-        elif self.gbfs_algo_rb[0][0] - self.gbfs_algo_rb[1] <= pos.column <= self.gbfs_algo_rb[0][0] + self.gbfs_algo_rb[1] and self.gbfs_algo_rb[0][1] - self.gbfs_algo_rb[1] <= pos.row <= self.gbfs_algo_rb[0][1] + self.gbfs_algo_rb[1]:
+        elif self.gbfs_algo_rb[0][0] - self.gbfs_algo_rb[1] <= pos.column <= self.gbfs_algo_rb[0][0] + \
+                self.gbfs_algo_rb[1] and self.gbfs_algo_rb[0][1] - self.gbfs_algo_rb[1] <= pos.row <= \
+                self.gbfs_algo_rb[0][1] + self.gbfs_algo_rb[1]:
             if algo_mode != AlgorithmTypes.GreedyBFS.value:
                 algo_mode = AlgorithmTypes.GreedyBFS.value
                 self.draw_dfs_algo_rb()
                 self.draw_bfs_algo_rb()
                 self.fill_gbfs_algo_rb()
                 self.draw_astar_algo_rb()
-        elif self.astar_algo_rb[0][0] - self.astar_algo_rb[1] <= pos.column <= self.astar_algo_rb[0][0] + self.astar_algo_rb[1] and self.astar_algo_rb[0][1] - self.astar_algo_rb[1] <= pos.row <= self.astar_algo_rb[0][1] + self.astar_algo_rb[1]:
+        elif self.astar_algo_rb[0][0] - self.astar_algo_rb[1] <= pos.column <= self.astar_algo_rb[0][0] + \
+                self.astar_algo_rb[1] and self.astar_algo_rb[0][1] - self.astar_algo_rb[1] <= pos.row <= \
+                self.astar_algo_rb[0][1] + self.astar_algo_rb[1]:
             if algo_mode != AlgorithmTypes.A_star.value:
                 algo_mode = AlgorithmTypes.A_star.value
                 self.draw_dfs_algo_rb()
                 self.draw_bfs_algo_rb()
                 self.draw_gbfs_algo_rb()
                 self.fill_astar_algo_rb()
-        elif self.chebyshev_heu_rb[0][0] - self.chebyshev_heu_rb[1] <= pos.column <= self.chebyshev_heu_rb[0][0] + self.chebyshev_heu_rb[1] and self.chebyshev_heu_rb[0][1] - self.chebyshev_heu_rb[1] <= pos.row <= self.chebyshev_heu_rb[0][1] + self.chebyshev_heu_rb[1]:
+        elif self.chebyshev_heu_rb[0][0] - self.chebyshev_heu_rb[1] <= pos.column <= self.chebyshev_heu_rb[0][0] + \
+                self.chebyshev_heu_rb[1] and self.chebyshev_heu_rb[0][1] - self.chebyshev_heu_rb[1] <= pos.row <= \
+                self.chebyshev_heu_rb[0][1] + self.chebyshev_heu_rb[1]:
             if heuristic != HeuristicTypes.Chebyshev.value:
                 heuristic = HeuristicTypes.Chebyshev.value
                 self.fill_chebyshev_heu_rb()
                 self.draw_manhattan_heu_rb()
                 self.draw_euclidean_heu_rb()
-        elif self.manhattan_heu_rb[0][0] - self.manhattan_heu_rb[1] <= pos.column <= self.manhattan_heu_rb[0][0] + self.manhattan_heu_rb[1] and self.manhattan_heu_rb[0][1] - self.manhattan_heu_rb[1] <= pos.row <= self.manhattan_heu_rb[0][1] + self.manhattan_heu_rb[1]:
+        elif self.manhattan_heu_rb[0][0] - self.manhattan_heu_rb[1] <= pos.column <= self.manhattan_heu_rb[0][0] + \
+                self.manhattan_heu_rb[1] and self.manhattan_heu_rb[0][1] - self.manhattan_heu_rb[1] <= pos.row <= \
+                self.manhattan_heu_rb[0][1] + self.manhattan_heu_rb[1]:
             if heuristic != HeuristicTypes.Manhattan.value:
                 heuristic = HeuristicTypes.Manhattan.value
                 self.draw_chebyshev_heu_rb()
                 self.fill_manhattan_heu_rb()
                 self.draw_euclidean_heu_rb()
-        elif self.euclidean_heu_rb[0][0] - self.euclidean_heu_rb[1] <= pos.column <= self.euclidean_heu_rb[0][0] + self.euclidean_heu_rb[1] and self.euclidean_heu_rb[0][1] - self.euclidean_heu_rb[1] <= pos.row <= self.euclidean_heu_rb[0][1] + self.euclidean_heu_rb[1]:
+        elif self.euclidean_heu_rb[0][0] - self.euclidean_heu_rb[1] <= pos.column <= self.euclidean_heu_rb[0][0] + \
+                self.euclidean_heu_rb[1] and self.euclidean_heu_rb[0][1] - self.euclidean_heu_rb[1] <= pos.row <= \
+                self.euclidean_heu_rb[0][1] + self.euclidean_heu_rb[1]:
             if heuristic != HeuristicTypes.Euclidean.value:
                 heuristic = HeuristicTypes.Euclidean.value
                 self.draw_chebyshev_heu_rb()
@@ -353,7 +373,8 @@ class UI:
     def clean_display(self):
         for cell in self.maze.cell_list:
             self.draw(cell)
-        pygame.draw.rect(self.screen, self.background_color, pygame.Rect(800, self.screen.get_height() - 8 * self.rect_size.row, 230, 110))
+        pygame.draw.rect(self.screen, self.background_color,
+                         pygame.Rect(800, self.screen.get_height() - 8 * self.rect_size.row, 230, 110))
 
     def draw_result(self, res, t):
         path = res.get("path")
@@ -363,7 +384,7 @@ class UI:
             for cell in path:
                 if cell.type not in (structures.CellTypes.Source.value, structures.CellTypes.Target.value):
                     self.draw(cell, pygame.Color("Darkgreen"))
-            d = str(d)
+            d = str(int(d))
         else:
             d = "Not Reachable!"
         t = str(round(t, 3))

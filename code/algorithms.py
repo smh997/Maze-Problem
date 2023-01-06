@@ -35,10 +35,12 @@ def dfs(maze, cell=None, *args):
     iteration += 1
     if cell == maze.target:
         max_iteration = max(iteration, max_iteration)
-        return {"total_distance": maze.target.total_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
+        return {"total_distance": maze.target.total_distance, "time": elapsed_time,
+                "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
     if iteration > 2500:
         max_iteration = max(iteration, max_iteration)
-        return {"total_distance": maze.target.total_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
+        return {"total_distance": maze.target.total_distance, "time": elapsed_time,
+                "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
     for neighbor_cell in maze.get_neighbors(cell):
         if neighbor_cell.passed_distance == float("inf"):
             neighbor_cell.previous_cell = cell
@@ -56,7 +58,8 @@ def dfs(maze, cell=None, *args):
         end_time = time.process_time()
         elapsed_time = end_time - start_time
     max_iteration = max(iteration, max_iteration)
-    return {"total_distance": maze.target.total_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
+    return {"total_distance": maze.target.total_distance, "time": elapsed_time,
+            "checked_cells_no": maze.n_checked_cells, "memory": max_iteration}
 
 
 def bfs(maze, cell=None, *args):
@@ -95,7 +98,8 @@ def bfs(maze, cell=None, *args):
     end_time = time.process_time()
     elapsed_time = end_time - start_time
 
-    return {"total_distance": maze.target.total_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": memory}
+    return {"total_distance": maze.target.total_distance, "time": elapsed_time,
+            "checked_cells_no": maze.n_checked_cells, "memory": memory}
 
 
 def a_star(maze, cell=None, h=heuristics.manhattan_distance, *args):
@@ -145,7 +149,8 @@ def a_star(maze, cell=None, h=heuristics.manhattan_distance, *args):
 
     end_time = time.process_time()
     elapsed_time = end_time - start_time
-    return {"total_distance": maze.target.total_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": memory}
+    return {"total_distance": maze.target.total_distance, "time": elapsed_time,
+            "checked_cells_no": maze.n_checked_cells, "memory": memory}
 
 
 def greedy_best_first_search(maze, cell=None, h=heuristics.manhattan_distance, *args):
@@ -161,6 +166,7 @@ def greedy_best_first_search(maze, cell=None, h=heuristics.manhattan_distance, *
 
     def pop(pq):
         return heapq.heappop(pq)[1]
+
     cell.passed_distance = 0
     cell.total_distance = cell.ongoing_distance = h(cell, maze.target)
     frontier = [(cell.total_distance, cell)]
@@ -172,7 +178,7 @@ def greedy_best_first_search(maze, cell=None, h=heuristics.manhattan_distance, *
         if cell == maze.target:
             break
         for neighbor_cell in maze.get_neighbors(cell):
-            if neighbor_cell.total_distance == float("inf") or neighbor_cell.total_distance > h(neighbor_cell, maze.target):
+            if neighbor_cell.total_distance == float("inf"):
                 neighbor_cell.passed_distance = cell.passed_distance + neighbor_cell.cost
                 neighbor_cell.total_distance = neighbor_cell.ongoing_distance = h(neighbor_cell, maze.target)
                 add(frontier, (neighbor_cell.total_distance, neighbor_cell))
@@ -187,4 +193,5 @@ def greedy_best_first_search(maze, cell=None, h=heuristics.manhattan_distance, *
         memory = max(memory, len(frontier))
     end_time = time.process_time()
     elapsed_time = end_time - start_time
-    return {"total_distance": maze.target.passed_distance, "time": elapsed_time, "checked_cells_no": maze.n_checked_cells, "memory": memory}
+    return {"total_distance": maze.target.passed_distance, "time": elapsed_time,
+            "checked_cells_no": maze.n_checked_cells, "memory": memory}
