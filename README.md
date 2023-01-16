@@ -47,7 +47,7 @@ The output will be ready in outputs directory.
 
 > Our documents are in this directory
 
-- [Proposal](https://github.com/smh997/Maze-Problem/tree/master/document/Proposal)
+- [Proposal](https://github.com/smh997/Maze-Problem/tree/master/document/proposal)
 - [Presentation](https://github.com/smh997/Maze-Problem/tree/master/document/Presentation)
 - [Final Report](https://github.com/smh997/Maze-Problem/tree/master/document/Report)
 ### [others](https://github.com/smh997/Maze-Problem/tree/master/others)
